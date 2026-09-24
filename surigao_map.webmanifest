@@ -1,0 +1,10 @@
+{
+  "name": "Ayo Surigao Map",
+  "short_name": "Ayo Map",
+  "start_url": "./surigao_map.html",
+  "display": "standalone",
+  "background_color": "#f4f8f2",
+  "theme_color": "#093d43",
+  "description": "Offline-first Surigao safety planning map.",
+  "icons": []
+}
