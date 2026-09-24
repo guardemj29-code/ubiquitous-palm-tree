@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BayanHandá — Laging Handa, Laging May Pag-asa</title>
+<meta name="description" content="Typhoon readiness, verified PH hotlines, and community help — built for Filipinos, by Filipinos.">
+<style>
+  :root{
+    --bg:#f7f8fc; --card:#fff; --ink:#1a2340; --muted:#5a6480;
+    --blue:#0038a8; --blue-dark:#002a7e; --red:#ce1126; --yellow:#fcd116;
+    --line:#e3e6f0; --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+  a{color:var(--blue)}
+  .wrap{max-width:1050px;margin:0 auto;padding:0 1.25rem}
+  .skip{position:absolute;left:-999px;top:0;background:var(--blue);color:#fff;padding:.6rem 1rem;border-radius:0 0 8px 0;z-index:99}
+  .skip:focus{left:0}
+
+  header{background:var(--card);border-bottom:3px solid var(--blue);position:sticky;top:0;z-index:10}
+  .nav{display:flex;align-items:center;gap:1rem;padding:.8rem 0;flex-wrap:wrap}
+  .logo{font-weight:800;font-size:1.3rem;color:var(--blue);text-decoration:none}
+  .logo b{color:var(--red)}
+  nav{margin-left:auto;display:flex;gap:.9rem;flex-wrap:wrap}
+  nav a{text-decoration:none;color:var(--muted);font-weight:600;font-size:.93rem;padding:.3rem .5rem;border-radius:8px}
+  nav a:hover,nav a:focus{background:#edf0fa;color:var(--blue)}
+
+  .hero{padding:3.5rem 0 2.5rem;text-align:center}
+  .hero h1{font-size:clamp(2rem,5vw,3.1rem);line-height:1.12;letter-spacing:-.02em}
+  .hero h1 b{color:var(--blue)}
+  .hero .tl{color:var(--muted);font-style:italic;max-width:600px;margin:.8rem auto 1.5rem;font-size:1.1rem}
+  .btn{display:inline-block;padding:.85rem 1.4rem;border-radius:10px;border:0;font-weight:700;font-size:1rem;cursor:pointer;text-decoration:none;text-align:center}
+  .btn-primary{background:var(--blue);color:#fff}
+  .btn-primary:hover{background:var(--blue-dark)}
+  .btn-ghost{background:#fff;color:var(--blue);border:1px solid var(--line)}
+  .btn-sm{padding:.4rem .8rem;font-size:.85rem}
+
+  .alert{background:#fdeaea;border:1px solid #f3bcbc;border-radius:var(--radius);padding:1rem 1.25rem;margin:1.5rem 0;font-size:.95rem}
+  .alert strong{color:var(--red)}
+  .hotline-strip{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center;margin-top:1rem}
+  .hotline-strip a{background:#fff;border:1.5px solid var(--red);color:var(--red);font-weight:800;border-radius:10px;padding:.5rem .9rem;text-decoration:none;font-size:.9rem}
+
+  section{padding:2.5rem 0}
+  h2{font-size:1.6rem;letter-spacing:-.01em;margin-bottom:.2rem}
+  .sub{color:var(--muted);margin-bottom:1.3rem}
+  .chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.4rem}
+  .chip{padding:.45rem .95rem;border-radius:999px;border:1px solid var(--line);background:#fff;cursor:pointer;font-weight:600;font-size:.9rem;color:var(--muted)}
+  .chip[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.2rem;display:flex;flex-direction:column;gap:.5rem}
+  .card h3{font-size:1.05rem}
+  .tag{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--blue);background:#edf0fa;border-radius:6px;padding:.15rem .5rem;align-self:flex-start}
+  .card p{color:var(--muted);font-size:.93rem}
+  .card .meta{font-size:.85rem;color:var(--ink);font-weight:600}
+  .card .actions{margin-top:auto;display:flex;gap:.5rem;align-items:center;justify-content:space-between;padding-top:.5rem}
+  .empty{color:var(--muted);padding:2rem;text-align:center;border:1px dashed var(--line);border-radius:var(--radius);grid-column:1/-1}
+
+  /* Signals table */
+  .signal-table{width:100%;border-collapse:collapse;background:#fff;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);font-size:.92rem}
+  .signal-table th{background:var(--blue);color:#fff;text-align:left;padding:.7rem .9rem;font-size:.85rem}
+  .signal-table td{padding:.7rem .9rem;border-top:1px solid var(--line)}
+  .sig{display:inline-block;width:1.7rem;height:1.7rem;line-height:1.7rem;text-align:center;border-radius:6px;color:#fff;font-weight:800;margin-right:.5rem}
+  .s1{background:#4caf50}.s2{background:#ffb300;color:#1a2340}.s3{background:#ff7043}.s4{background:var(--red)}.s5{background:#8b0000}
+
+  /* Checklist */
+  .check-panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:1.4rem}
+  .progress-wrap{background:#edf0fa;border-radius:99px;height:12px;margin:.8rem 0 1.2rem;overflow:hidden}
+  .progress-bar{background:linear-gradient(90deg,var(--blue),#3f6fd8);height:100%;width:0;transition:width .3s}
+  .checklist{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:.4rem}
+  .checklist label{display:flex;gap:.6rem;align-items:flex-start;padding:.45rem .6rem;border-radius:8px;cursor:pointer;font-size:.95rem}
+  .checklist label:hover{background:#f3f5fb}
+  .checklist input{width:1.15rem;height:1.15rem;margin-top:.15rem;accent-color:var(--blue);cursor:pointer}
+  .checklist input:checked + span{color:var(--muted);text-decoration:line-through}
+  .phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:1.5rem}
+  .phase{border-left:4px solid var(--blue)}
+  .phase.during{border-left-color:var(--red)}
+  .phase.after{border-left-color:#4caf50}
+  .phase ul{padding-left:1.2rem;color:var(--muted);font-size:.93rem}
+  .phase li{margin-bottom:.35rem}
+
+  form{display:grid;gap:.8rem;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:1.4rem}
+  label{font-weight:600;font-size:.92rem}
+  input,select,textarea{padding:.7rem .9rem;border:1px solid var(--line);border-radius:9px;font:inherit;background:#fff;color:var(--ink);width:100%}
+  textarea{min-height:90px;resize:vertical}
+  :is(input,select,textarea):focus{outline:2px solid var(--blue);outline-offset:1px}
+  .row{display:grid;gap:.8rem;grid-template-columns:1fr 1fr}
+  .notice{font-size:.85rem;color:var(--muted);background:#fdf6dc;border:1px solid #ead98b;border-radius:9px;padding:.6rem .8rem}
+  .post{border-left:4px solid var(--blue)}
+  .post.need{border-left-color:var(--red)}
+  .post .who{font-weight:700}
+  .post time{color:var(--muted);font-size:.82rem}
+
+  footer{border-top:1px solid var(--line);padding:2rem 0 3rem;color:var(--muted);font-size:.88rem;margin-top:2rem}
+  footer .flag{display:inline-block;width:14px;height:9px;background:linear-gradient(90deg,var(--blue) 55%,var(--red) 55%);border-radius:2px;vertical-align:middle;margin-right:.4rem}
+  @media(max-width:640px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<a class="skip" href="#readiness">Skip to typhoon guide</a>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top">Bayan<b>Handá</b></a>
+    <nav aria-label="Main">
+      <a href="#readiness">Typhoon guide</a>
+      <a href="#help">Hotlines</a>
+      <a href="#board">Community</a>
+      <a href="#volunteer">Volunteer</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <h1>Laging <b>Handa.</b><br>Laging May <b>Pag-asa.</b></h1>
+    <p class="tl">"Always ready. Always hopeful." — Typhoon readiness, verified hotlines, and community help for every Filipino.</p>
+    <a class="btn btn-primary" href="#readiness">Prepare my go-bag →</a>
+  </div>
+
+  <div class="wrap">
+    <div class="alert" role="note">
+      <strong>Emergency ngayon?</strong> Call <strong>911</strong> immediately. In emotional crisis? Call or text <strong>1553</strong> (NCMH, free, 24/7). For rescue and relief: <strong>Red Cross 143</strong>.
+    </div>
+  </div>
+
+  <!-- TYPHOON READINESS -->
+  <section id="readiness">
+    <div class="wrap">
+      <h2>🌀 Typhoon readiness</h2>
+      <p class="sub">Around 20 typhoons hit the Philippines every year. Preparation saves lives — start with your go-bag.</p>
+
+      <div class="check-panel">
+        <h3 style="font-size:1.15rem">✅ Go-bag checklist <span style="color:var(--muted);font-weight:400;font-size:.9rem">(saves in your browser)</span></h3>
+        <div class="progress-wrap"><div class="progress-bar" id="bagBar"></div></div>
+        <p style="margin-bottom:.8rem" id="bagCount" aria-live="polite"></p>
+        <div class="checklist" id="goBag"></div>
+      </div>
+
+      <div class="phases">
+        <div class="card phase">
+          <span class="tag">Before · Bago</span>
+          <ul>
+            <li>Charge phones and power banks fully</li>
+            <li>Store 3 days of water (4L/person/day) and ready-to-eat food</li>
+            <li>Know your nearest evacuation center and safe route</li>
+            <li>Agree on a family meeting point and out-of-area contact</li>
+            <li>Monitor PAGASA advisories — don't rely on forwarded messages</li>
+          </ul>
+        </div>
+        <div class="card phase during">
+          <span class="tag">During · Habang</span>
+          <ul>
+            <li>Stay indoors, away from windows and glass</li>
+            <li>Never wade in floods — just 15cm of moving water can knock you down; it may be electrified</li>
+            <li>If told to evacuate, go early — before the storm peaks</li>
+            <li>Keep the radio on for official bulletins</li>
+          </ul>
+        </div>
+        <div class="card phase after">
+          <span class="tag">After · Pagkatapos</span>
+          <ul>
+            <li>Wait for the official "all clear" — the eye of the storm is not the end</li>
+            <li>Boil water 1–3 minutes before drinking if supply is unsure</li>
+            <li>Report downed power lines; never touch them</li>
+            <li>Check on neighbors, especially seniors and PWDs</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 style="margin:2rem 0 .8rem;font-size:1.15rem">📊 PAGASA Wind Signals (current system)</h3>
+      <div style="overflow-x:auto">
+      <table class="signal-table">
+        <thead><tr><th>Signal</th><th>Wind speed</th><th>Expected within</th><th>What it means</th></tr></thead>
+        <tbody>
+          <tr><td><span class="sig s1">1</span></td><td>39–61 km/h</td><td>36 hours</td><td>Some damage to crops/houses; classes affected</td></tr>
+          <tr><td><span class="sig s2">2</span></td><td>62–88 km/h</td><td>24 hours</td><td>Light damage; travel risky; prepare to evacuate</td></tr>
+          <tr><td><span class="sig s3">3</span></td><td>89–117 km/h</td><td>18 hours</td><td>Significant damage; evacuate if advised</td></tr>
+          <tr><td><span class="sig s4">4</span></td><td>118–184 km/h</td><td>12 hours</td><td>Severe damage likely; total evacuation may be needed</td></tr>
+          <tr><td><span class="sig s5">5</span></td><td>&gt;185 km/h</td><td>12 hours</td><td>Extreme danger; follow all evacuation orders</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="sub" style="margin-top:.6rem;font-size:.85rem">Official source: <a href="https://www.pagasa.dost.gov.ph" target="_blank" rel="noopener">pagasa.dost.gov.ph</a> — always check there for live bulletins.</p>
+    </div>
+  </section>
+
+  <!-- HOTLINES -->
+  <section id="help">
+    <div class="wrap">
+      <h2>☎️ Verified hotlines &amp; official help</h2>
+      <p class="sub">Government and NGO services. Tap a number to call. Details change — verify on the official site when possible.</p>
+      <div class="chips" id="chips" role="group" aria-label="Filter resources"></div>
+      <div class="grid" id="resourceGrid" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- COMMUNITY BOARD -->
+  <section id="board">
+    <div class="wrap">
+      <h2>🤝 Community help board</h2>
+      <p class="sub">Post a request or an offer. Posts are saved in <em>your browser only</em> for now — see the honesty notes below.</p>
+      <form id="postForm" novalidate>
+        <div class="row">
+          <div>
+            <label for="pType">I'm posting a…</label>
+            <select id="pType" required>
+              <option value="need">Request for help</option>
+              <option value="offer">Offer of help</option>
+            </select>
+          </div>
+          <div>
+            <label for="pCat">Category</label>
+            <select id="pCat" required>
+              <option value="">Choose…</option>
+              <option>Food</option><option>Disaster relief</option><option>Health</option>
+              <option>Jobs</option><option>Education</option><option>Transport</option>
+              <option>Tech help</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label for="pName">Name or nickname (optional)</label>
+            <input id="pName" maxlength="40" placeholder="e.g. Ana from QC">
+          </div>
+          <div>
+            <label for="pCity">City / barangay</label>
+            <input id="pCity" maxlength="60" placeholder="e.g. Brgy. Malanday, Marikina" required>
+          </div>
+        </div>
+        <div>
+          <label for="pDesc">What do you need / can you offer?</label>
+          <textarea id="pDesc" maxlength="500" placeholder="Be specific. Don't share sensitive personal info." required></textarea>
+        </div>
+        <div>
+          <label for="pContact">How can people reach you? (optional)</label>
+          <input id="pContact" maxlength="80" placeholder="phone, email, or 'reply on the board'">
+        </div>
+        <p class="notice">🔒 Stored locally on this device only. Never post full addresses, medical details, or passwords.</p>
+        <button class="btn btn-primary" type="submit">Post to board</button>
+      </form>
+      <div class="grid" id="postGrid" style="margin-top:1.5rem" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- VOLUNTEER -->
+  <section id="volunteer">
+    <div class="wrap">
+      <h2>💚 Volunteer &amp; donate</h2>
+      <p class="sub">Ways to help kapwa Filipino:</p>
+      <div class="grid">
+        <div class="card"><span class="tag">Disaster relief</span><h3>Philippine Red Cross</h3><p>Volunteer, donate blood, or give to relief operations. Hotline <strong>143</strong>.</p><div class="actions"><a class="btn btn-ghost btn-sm" href="https://www.redcross.org.ph" target="_blank" rel="noopener">redcross.org.ph ↗</a></div></div>
+        <div class="card"><span class="tag">Food &amp; aid</span><h3>GMA Kapuso Foundation</h3><p>Feeding programs and disaster response; donations are verified and itemized.</p><div class="actions"><a class="btn btn-ghost btn-sm" href="https://www.gmanetwork.com/kapusofoundation" target="_blank" rel="noopener">kapusofoundation ↗</a></div></div>
+        <div class="card"><span class="tag">Jobs</span><h3>PhilJobNet (DOLE)</h3><p>The official free job-matching portal — refer family and friends who need work. DOLE hotline: <strong>1349</strong>.</p><div class="actions"><a class="btn btn-ghost btn-sm" href="https://philjobnet.gov.ph" target="_blank" rel="noopener">philjobnet.gov.ph ↗</a></div></div>
+        <div class="card"><span class="tag">Your skills</span><h3>Tech volunteering 🖥️</h3><p>Are you an IT student? Build QR posters for barangay hotlines, teach scam awareness, or help offices with backups. Small skills, big impact.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap">
+      <h2>About &amp; honesty box</h2>
+      <ul class="sub" style="padding-left:1.2rem">
+        <li>Hotlines listed are real, established services. <strong>Verify before relying</strong> — numbers and programs change.</li>
+        <li>This site is <strong>not</strong> a rescue or crisis service. Emergencies go to <strong>911</strong>.</li>
+        <li>Live weather data is not shown — always check <a href="https://www.pagasa.dost.gov.ph" target="_blank" rel="noopener">PAGASA directly</a>.</li>
+        <li>Board posts never leave your device. A real public board needs a backend + moderation.</li>
+        <li>No accounts, no tracking, no cookies. Built by an IT student, for the bayan. 🇵🇭</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><span class="flag"></span><strong>BayanHandá</strong> — a community project. Replace this footer with your name, school, and contact info.
+</footer>
+
+<script>
+/* ---------- Verified PH resources ---------- */
+const RESOURCES = [
+  {cat:"Emergency", name:"911 National Emergency", desc:"Police, fire, medical emergencies nationwide.", meta:"📞 911 · 24/7 · Free", tel:"911", url:"https://www.dilg.gov.ph"},
+  {cat:"Mental Health", name:"NCMH Crisis Hotline", desc:"Free 24/7 support for depression, anxiety, and mental health crises.", meta:"📞 1553 · 0917-899-8727", tel:"1553", url:"https://ncmh.gov.ph"},
+  {cat:"Mental Health", name:"Find a Helpline (PH)", desc:"More verified counseling lines, Philippines and worldwide.", meta:"International", url:"https://findahelpline.com"},
+  {cat:"Disaster", name:"PAGASA Weather Bulletins", desc:"Official forecasts, typhoon tracking, and rainfall warnings.", meta:"(02) 8284-0800", url:"https://www.pagasa.dost.gov.ph"},
+  {cat:"Disaster", name:"NDRRMC Operations Center", desc:"National disaster coordination, updates, and response.", meta:"(02) 8911-1406 · 911-1406", tel:"9111406", url:"https://ndrrmc.gov.ph"},
+  {cat:"Disaster", name:"Philippine Red Cross 143", desc:"Rescue, relief, blood services, and first-aid training.", meta:"📞 143 · (02) 8790-2300", tel:"143", url:"https://www.redcross.org.ph"},
+  {cat:"Welfare", name:"DSWD Assistance (AICS)", desc:"Crisis assistance: food, medical, burial, and cash aid referrals.", meta:"(02) 8931-8101 loc 502", url:"https://www.dswd.gov.ph"},
+  {cat:"Jobs", name:"PhilJobNet / DOLE", desc:"Official free job matching; labor rights and OFW concerns.", meta:"📞 DOLE 1349", tel:"1349", url:"https://philjobnet.gov.ph"},
+  {cat:"Welfare", name:"211 / Local DSWD Office", desc:"Some LGUs run local hotlines for social services — check your city hall's official page.", meta:"Varies by LGU", url:"https://www.dswd.gov.ph"},
+];
+
+const CATS = ["All","Emergency","Disaster","Mental Health","Welfare","Jobs"];
+const LS_POSTS = "bayanhandaposts", LS_BAG = "bayanhandagobag";
+const $ = s => document.querySelector(s);
+const esc = t => String(t).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+/* ---------- Resources ---------- */
+let activeCat = "All";
+function renderChips(){
+  const box = $("#chips"); box.innerHTML = "";
+  CATS.forEach(c => {
+    const b = document.createElement("button");
+    b.className = "chip"; b.type = "button"; b.textContent = c;
+    b.setAttribute("aria-pressed", String(c === activeCat));
+    b.onclick = () => { activeCat = c; renderChips(); renderResources(); };
+    box.appendChild(b);
+  });
+}
+function renderResources(){
+  const grid = $("#resourceGrid");
+  const items = RESOURCES.filter(r => activeCat === "All" || r.cat === activeCat);
+  grid.innerHTML = "";
+  items.forEach(r => {
+    const el = document.createElement("article");
+    el.className = "card";
+    el.innerHTML = `
+      <span class="tag">${esc(r.cat)}</span>
+      <h3><a href="${r.url}" target="_blank" rel="noopener">${esc(r.name)}</a></h3>
+      <p>${esc(r.desc)}</p>
+      <div class="meta">${esc(r.meta)}</div>
+      <div class="actions">
+        ${r.tel ? `<a class="btn btn-primary btn-sm" href="tel:${r.tel}">📞 Call now</a>` : ""}
+        <a class="btn btn-ghost btn-sm" href="${r.url}" target="_blank" rel="noopener">Website ↗</a>
+      </div>`;
+    grid.appendChild(el);
+  });
+}
+
+/* ---------- Go-bag checklist ---------- */
+const BAG = [
+  "Drinking water — 3 days (4L/person/day)",
+  "Ready-to-eat food — 3 days (canned, crackers)",
+  "First-aid kit + maintenance medicines",
+  "Flashlight + extra batteries",
+  "Power bank (fully charged)",
+  "Battery or hand-crank radio",
+  "Whistle (to signal for help)",
+  "Copies of IDs & documents in waterproof bag",
+  "Cash in small bills (ATMs may be down)",
+  "Hygiene kit (soap, alcohol, toothbrush)",
+  "Phone, charger, and emergency contacts list",
+  "Extra clothes, raincoat, slippers"
+];
+function renderBag(){
+  const saved = JSON.parse(localStorage.getItem(LS_BAG) || "[]");
+  const box = $("#goBag"); box.innerHTML = "";
+  BAG.forEach((item, i) => {
+    const id = "bag" + i;
+    const label = document.createElement("label");
+    label.innerHTML = `<input type="checkbox" id="${id}" ${saved.includes(i) ? "checked" : ""}><span>${esc(item)}</span>`;
+    label.querySelector("input").onchange = e => {
+      const cur = JSON.parse(localStorage.getItem(LS_BAG) || "[]");
+      const s = new Set(cur);
+      e.target.checked ? s.add(i) : s.delete(i);
+      localStorage.setItem(LS_BAG, JSON.stringify([...s]));
+      updateBagProgress();
+    };
+    box.appendChild(label);
+  });
+  updateBagProgress();
+}
+function updateBagProgress(){
+  const saved = JSON.parse(localStorage.getItem(LS_BAG) || "[]").filter(i => i < BAG.length);
+  const pct = Math.round(saved.length / BAG.length * 100);
+  $("#bagBar").style.width = pct + "%";
+  $("#bagCount").textContent = pct === 100 ? "🎉 Handang-handa ka na! Go-bag complete." : `${saved.length} / ${BAG.length} items packed (${pct}%)`;
+}
+
+/* ---------- Community board ---------- */
+function getPosts(){ return JSON.parse(localStorage.getItem(LS_POSTS) || "[]"); }
+function setPosts(p){ localStorage.setItem(LS_POSTS, JSON.stringify(p)); }
+function renderBoard(){
+  const grid = $("#postGrid");
+  const posts = getPosts().sort((a,b) => b.ts - a.ts);
+  grid.innerHTML = posts.length ? "" : '<div class="empty">No posts yet. Be the first to ask or offer help — the form above is waiting.</div>';
+  posts.forEach(p => {
+    const el = document.createElement("article");
+    el.className = "card post" + (p.type === "need" ? " need" : "");
+    const when = new Date(p.ts).toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"});
+    el.innerHTML = `
+      <span class="tag">${p.type === "need" ? "Needs help" : "Offering help"} · ${esc(p.cat)}</span>
+      <div class="who">${esc(p.name || "Anonymous")} · <span>${esc(p.city)}</span></div>
+      <p>${esc(p.desc)}</p>
+      ${p.contact ? `<div class="meta">Contact: ${esc(p.contact)}</div>` : ""}
+      <div class="actions"><time>${when}</time><button class="btn btn-ghost btn-sm">Delete</button></div>`;
+    el.querySelector("button").onclick = () => { setPosts(getPosts().filter(x => x.id !== p.id)); renderBoard(); };
+    grid.appendChild(el);
+  });
+}
+$("#postForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const desc = $("#pDesc").value.trim(), cat = $("#pCat").value, city = $("#pCity").value.trim();
+  if (!desc || !cat || !city){ alert("Please fill in category, city/barangay, and description."); return; }
+  setPosts([{ id: Date.now() + "" + Math.random().toString(36).slice(2,6),
+    type: $("#pType").value, cat, city, name: $("#pName").value.trim(),
+    desc, contact: $("#pContact").value.trim(), ts: Date.now() }, ...getPosts()]);
+  e.target.reset(); renderBoard();
+});
+
+/* ---------- Init ---------- */
+renderChips(); renderResources(); renderBag(); renderBoard();
+</script>
+</body>
+</html>
