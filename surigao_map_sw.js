@@ -1,4 +1,4 @@
-const CACHE = 'ayo-surigao-map-v2';
+const CACHE = 'ayo-surigao-map-v3';
 const SHELL = [
   './surigao_map.html',
   './surigao_map.webmanifest',
